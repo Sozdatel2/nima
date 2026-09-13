@@ -36,7 +36,6 @@ EMOJI_INFO = "<:info:1536425715124146290>"
 PE_ADD = nextcord.PartialEmoji.from_str(EMOJI_ADD)
 PE_HISTORY = nextcord.PartialEmoji.from_str(EMOJI_HISTORY)
 
-
 # --- JSON утилиты ---
 def load_json(path, default):
     if not os.path.exists(path):
@@ -44,12 +43,10 @@ def load_json(path, default):
     with open(path, "r", encoding="utf-8") as f:
         return json.load(f)
 
-
 def save_json(path, data):
     os.makedirs(os.path.dirname(path) or ".", exist_ok=True)
     with open(path, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=2, ensure_ascii=False)
-
 
 # --- Парсер времени ---
 _UNITS = {
@@ -65,7 +62,6 @@ _UNITS = {
     "н": 604800, "нед": 604800, "неделя": 604800, "недели": 604800, "недель": 604800,
 }
 
-
 def parse_duration(text: str) -> int | None:
     text = text.strip().lower()
     if not text:
@@ -80,7 +76,6 @@ def parse_duration(text: str) -> int | None:
             total += int(num) * mult
             found = True
     return total if found else None
-
 
 # --- Эмбед розыгрыша ---
 def build_giveaway_embed(author, description, prize, winners, end_ts, participants, banner_url):
@@ -103,7 +98,6 @@ def build_giveaway_embed(author, description, prize, winners, end_ts, participan
         embed.set_image(url=banner_url)
     embed.set_footer(text="Нажми кнопку ниже, чтобы участвовать")
     return embed
-
 
 # --- Persistent: участие ---
 class JoinView(nextcord.ui.View):
@@ -150,7 +144,6 @@ class JoinView(nextcord.ui.View):
 
         await interaction.response.send_message(f"{EMOJI_CHECK} Ты записан в розыгрыш!", ephemeral=True)
 
-
 # --- Persistent: реролл ---
 class RerollView(nextcord.ui.View):
     def __init__(self, giveaway_id: str):
@@ -190,7 +183,6 @@ class RerollView(nextcord.ui.View):
             f"{EMOJI_HISTORY} Новый победитель: {mention}",
             reference=interaction.message,
         )
-
 
 # --- Cog ---
 class Giveaway(commands.Cog):
@@ -520,7 +512,6 @@ class Giveaway(commands.Cog):
         msg = await channel.send(text, view=view)
         g["result_message_id"] = msg.id
         self.bot.add_view(RerollView(gid))
-
 
 def setup(bot):
     bot.add_cog(Giveaway(bot))
