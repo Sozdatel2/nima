@@ -1,0 +1,13 @@
+.env
+.env.local
+.env.*.local
+*.env
+potom.json
+requirements.txtdata/
+
+data/
+
+
+__pycache__/
+*.pyc
+*.pyo
